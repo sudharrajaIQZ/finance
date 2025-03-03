@@ -19,7 +19,7 @@ export class TransactionComponent {
   customerList: CustomerDto[] = [];
   transactionList: TransactionDto[] = [];
   //
-  res: TransactionDto | object | undefined;
+  res: TransactionDto = new TransactionDto();
 
   constructor(private service: Service) { }
 

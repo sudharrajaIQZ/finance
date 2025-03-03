@@ -10,7 +10,7 @@ export class RegisterDto {
     password: string = '';
 }
 
-export interface VerifyOtp {
-    Email: string;
-    otp: number;
+export class VerifyOtp {
+    Email: string = "";
+    otp: number = 0;
 }
