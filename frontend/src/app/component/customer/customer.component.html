@@ -1,0 +1,120 @@
+<form  (ngSubmit)="onSubmit()" 
+      class="max-w-lg mx-auto space-y-4 bg-white p-6 shadow-md rounded-lg">
+  <h2 class="text-xl font-bold text-center">Customer Registration</h2>
+
+  <!-- Response Message -->
+  <p *ngIf="responseMessage" 
+     class="text-center font-medium text-sm py-2 rounded mt-3"
+     [ngClass]="{ 'text-green-700 bg-green-200': !isError, 'text-red-700 bg-red-200': isError }">
+    {{ responseMessage }}
+  </p>
+
+  <div class="grid grid-cols-2 gap-3">
+    <div class="grid col-span-1 gap-2">
+      <label>First Name:</label>
+      <input [(ngModel)]="customerData.firstName" name="firstName" type="text" 
+             class="border px-3 py-2 rounded w-full" required />
+    </div>
+    <div class="grid col-span-1 gap-2">
+      <label>Last Name:</label>
+      <input [(ngModel)]="customerData.lastName" name="lastName" type="text" 
+             class="border px-3 py-2 rounded w-full" required />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-3">
+    <div class="grid col-span-1 gap-2">
+      <label>Phone Number:</label>
+      <input [(ngModel)]="customerData.phoneNumber" name="phoneNumber" type="number" 
+             class="border px-3 py-2 rounded w-full" required />
+    </div>
+    <div class="grid col-span-1 gap-2">
+      <label>Address:</label>
+      <input [(ngModel)]="customerData.address" name="address" type="text" 
+             class="border px-3 py-2 rounded w-full" required />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-3">
+    <div class="grid col-span-1 gap-2">
+      <label>Gender:</label>
+      <select [(ngModel)]="customerData.gender" name="gender" 
+              class="border px-3 py-2 rounded w-full" required>
+        <option value="">Select</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="grid col-span-1 gap-2">
+      <label>Date of Birth:</label>
+      <input [(ngModel)]="customerData.dob" name="dob" type="date" 
+             class="border px-3 py-2 rounded w-full" required />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-3">
+    <div class="grid col-span-1 gap-2">
+      <label>Bank ID:</label>
+      <input [(ngModel)]="customerData.bankId" name="bankId" type="text" 
+             class="border px-3 py-2 rounded w-full" required />
+    </div>
+    <div class="grid col-span-1 gap-2">
+      <label>Opening Date:</label>
+      <input [(ngModel)]="customerData.openingDate" name="openingDate" type="date" 
+             class="border px-3 py-2 rounded w-full" required />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-3">
+    <div class="grid col-span-1 gap-2">
+      <label>Account Type:</label>
+      <select [(ngModel)]="customerData.accountType" name="accountType" 
+              class="border px-3 py-2 rounded w-full" required>
+        <option value="Savings">Savings</option>
+        <option value="Current">Current</option>
+      </select>
+    </div>
+    <div class="grid col-span-1 gap-2">
+      <label>User ID:</label>
+      <input [(ngModel)]="customerData.userId" name="userId" type="text" 
+             class="border px-3 py-2 rounded w-full" required />
+    </div>
+  </div>
+
+  <button type="submit" 
+          class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+    Submit
+  </button>
+</form>
+
+
+ <!-- ngOnInit(): void {
+    this.route.params.subscribe((param) => {
+      this.clientId = param['id'];
+      this.getClientById();
+    });
+  } 
+  ngOnInit(): void {
+    // Call the service method to fetch the customer list when the page opens
+    this.service.getCustomers().subscribe(
+      (data: CustomerDto[]) => {
+        this.customers = data;
+        console.log('Customers fetched:', data);
+      },
+      (error) => {
+        console.error('Error fetching customers:', error);
+      }
+    );
+  }
+
+  async onSubmit() {
+    try {
+      const response = await this.service.Payment(this.transactionData);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+-->

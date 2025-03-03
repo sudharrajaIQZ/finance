@@ -1,0 +1,20 @@
+<!-- <section class="min-h-screen grid grid-cols-12">
+  <!-- Sidebar (Header) -
+  <div *ngIf="showHeader" class="col-span-1 bg-gray-200 p-4 h-screen overflow-hidden">
+    <app-header></app-header>
+  </div>
+  <!-- Main Content Area --
+  <div [ngClass]="showHeader ? 'col-span-11':'col-span-12'" class="p-6">
+    <router-outlet></router-outlet>
+  </div>
+</section> -->
+<section class="min-h-screen flex">
+  <!-- Sidebar (Header) -->
+  <div *ngIf="showHeader" class="w-64 bg-gray-200 p-4 h-screen">
+    <app-header></app-header>
+  </div>
+  <!-- Main Content Area -->
+  <div [ngClass]="showHeader ? 'w-[calc(100%-16rem)]' : 'w-full'" class="p-6 overflow-y-scroll">
+    <router-outlet></router-outlet>
+  </div>
+</section>
