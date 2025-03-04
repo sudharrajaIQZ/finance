@@ -2,6 +2,7 @@
 using backend.Dto;
 using backend.Interface;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +15,16 @@ namespace backend.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthInterface _authInterface;
+        private readonly IJwtInterface _jwtInterface;
 
-        public AuthController(IAuthInterface authInterface)
+        public AuthController(IAuthInterface authInterface,IJwtInterface jwtInterface)
         {
             this._authInterface = authInterface;
+            this._jwtInterface = jwtInterface;
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> getUsers()
         {
             var users = await _authInterface.getUsersAsync();
@@ -53,11 +57,18 @@ namespace backend.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> loignUser([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> LoginUser([FromBody] LoginDto loginDto)
         {
             var loginResponse = await _authInterface.LoginAsync(loginDto);
-            return StatusCode(loginResponse.Code,loginResponse);
+
+            if (loginResponse.Code == (int)HttpStatusCode.OK && loginResponse.Data is not null)
+            {
+                return Ok(loginResponse);
+            }
+
+            return Unauthorized(new BaseResponse<object>(loginResponse.Message, loginResponse.Code));
         }
+
 
         [HttpPost]
         [Route("verify-otp")]

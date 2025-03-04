@@ -4,7 +4,7 @@ export class CustomerDto {
     id?: string;
 
     @IsNotEmpty()
-    firstName!: string;
+    firstName: string = "";
 
     @IsNotEmpty()
     lastName!: string;
@@ -25,9 +25,15 @@ export class CustomerDto {
 
     openingDate?: Date;
 
+    balance: number = 0;
+
     @IsNotEmpty()
     accountType!: string;
 
     @IsNotEmpty()
     userId!: string;
+    
+    constructor(){
+        this.userId = ""
+    }
 }

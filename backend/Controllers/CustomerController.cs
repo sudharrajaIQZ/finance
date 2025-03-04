@@ -1,5 +1,6 @@
 ﻿using backend.Dto;
 using backend.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace backend.Controllers
 {
     [Route("api/customer")]
     [ApiController]
+    //[Authorize]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerIntrerface customerIntrerface;

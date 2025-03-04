@@ -12,7 +12,7 @@ using backend.DataBase;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250303092706_init")]
+    [Migration("20250304223342_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -45,6 +45,12 @@ namespace backend.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExpiry")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(60)
@@ -68,7 +74,20 @@ namespace backend.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("userDetails");
+                    b.ToTable("users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
+                            EmailId = "admin@example.com",
+                            Otp = 123456,
+                            Password = "admin",
+                            UserName = "adminUser",
+                            createdAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            isVerified = true,
+                            updatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("backend.Models.CustomerModule", b =>
@@ -142,7 +161,7 @@ namespace backend.Migrations
                     b.HasIndex("phoneNumber")
                         .IsUnique();
 
-                    b.ToTable("customerDetails");
+                    b.ToTable("customers");
                 });
 
             modelBuilder.Entity("backend.Models.OrganizationModule", b =>
@@ -184,7 +203,58 @@ namespace backend.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("organization");
+                    b.ToTable("organizations");
+                });
+
+            modelBuilder.Entity("backend.Models.RoleModule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Description = "Admin Role",
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            Description = "Editor Role",
+                            Name = "Editor"
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            Description = "Super Admin Role",
+                            Name = "Super Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            Description = "Manager Role",
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Description = "Guest Role",
+                            Name = "Guest"
+                        });
                 });
 
             modelBuilder.Entity("backend.Models.TransactionModule", b =>
@@ -210,7 +280,53 @@ namespace backend.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("transaction");
+                    b.ToTable("transactions");
+                });
+
+            modelBuilder.Entity("backend.Models.UserRole", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(1);
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("userRoles");
+                });
+
+            modelBuilder.Entity("backend.Models.UserRole", b =>
+                {
+                    b.HasOne("backend.Models.RoleModule", "Role")
+                        .WithMany("userRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.AuthModel", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.AuthModel", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("backend.Models.RoleModule", b =>
+                {
+                    b.Navigation("userRoles");
                 });
 #pragma warning restore 612, 618
         }

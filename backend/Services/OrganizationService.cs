@@ -18,13 +18,13 @@ namespace backend.Services
 
         public async Task<BaseResponse<object>> getOrganizationAsync()
         {
-            var organizationList = await appDb.organization.ToListAsync();
-            return new BaseResponse<object>("Organization list fetched successfully", (int)HttpStatusCode.Created, organizationList);
+            var organizationList = await appDb.organizations.ToListAsync();
+            return new BaseResponse<object>("organizations list fetched successfully", (int)HttpStatusCode.Created, organizationList);
         }
 
         public async Task<BaseResponse<object>> createOrganizationAsync(createOrganization createOrganization)
         {
-            var Organization = new OrganizationModule
+            var organizations = new OrganizationModule
             {
                 Id = new Guid(),
                 BankName = createOrganization.BankName,
@@ -33,10 +33,10 @@ namespace backend.Services
                 IFSCCode = createOrganization.IFSCCode,
                 MICRCode = createOrganization.MICRCode
             };
-            await appDb.organization.AddAsync(Organization);
+            await appDb.organizations.AddAsync(organizations);
             await appDb.SaveChangesAsync();
 
-            return new BaseResponse<object>("Organization created successfully", (int)HttpStatusCode.Created, Organization);
+            return new BaseResponse<object>("organizations created successfully", (int)HttpStatusCode.Created, organizations);
         }
     }
 }

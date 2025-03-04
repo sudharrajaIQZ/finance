@@ -11,5 +11,6 @@ namespace backend.Interface
         Task<BaseResponse<object>> deletUserAsync(Guid id);
         Task<BaseResponse<object>> LoginAsync(LoginDto loginDto);
         Task<BaseResponse<object>> verifyOtpAsync(string Email, verifyOtp verifyOtp);
+        
     }
 }

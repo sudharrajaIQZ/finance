@@ -15,7 +15,9 @@ import { FormsModule } from '@angular/forms';
 
 })
 export class CustomerComponent {
+
   customerData: CustomerDto = new CustomerDto();
+  
   constructor(private service: Service) { };
   responseMessage: string = '';
   isError: boolean = false;

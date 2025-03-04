@@ -17,7 +17,7 @@ namespace backend.Services
 
         public async Task<BaseResponse<object>> getCustomerAsync()
         {
-            var customerList = await appDb.customerDetails.ToListAsync();
+            var customerList = await appDb.customers.ToListAsync();
 
             return new BaseResponse<object>("Customer list fetched successfully", (int)HttpStatusCode.Created, customerList);
         }
@@ -38,11 +38,11 @@ namespace backend.Services
                 AccountNumber = generatedAccountNumber,
                 OpeningDate = DateTime.UtcNow,
                 AccountType = customer.AccountType,
-                Balance = customer.Balance,
+                Balance = 0,
                 UserId = customer.UserId
             };
 
-            await appDb.customerDetails.AddAsync(AddCustomer);
+            await appDb.customers.AddAsync(AddCustomer);
             await appDb.SaveChangesAsync();
 
             return new BaseResponse<object>("Customer Created Successfully", (int)HttpStatusCode.Created);
@@ -51,7 +51,7 @@ namespace backend.Services
 
         public async Task<BaseResponse<object>> updateCustomerAsync(Guid id, UpdateCustomer updateCustomer)
         {
-            var findCustomer = await appDb.customerDetails.FirstOrDefaultAsync(c => c.Id == id);
+            var findCustomer = await appDb.customers.FirstOrDefaultAsync(c => c.Id == id);
             if (findCustomer != null)
             {
                 findCustomer.firstName = updateCustomer.firstName;
@@ -75,7 +75,7 @@ namespace backend.Services
             {
                 return new BaseResponse<object>("Invalid customer ID format", (int)HttpStatusCode.BadRequest, null);
             }
-            var findCustomer = await appDb.customerDetails.FirstOrDefaultAsync(e => e.Id == customerId);         
+            var findCustomer = await appDb.customers.FirstOrDefaultAsync(e => e.Id == customerId);         
             return new BaseResponse<object>("customer found successfully", (int)HttpStatusCode.Found, findCustomer);
         }
 

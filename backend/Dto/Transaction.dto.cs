@@ -6,7 +6,7 @@
         public Guid customerId { get; set; }
         public string type { get; set; }
         public double amount { get; set; }
-        public string userId { get; set; }
+        public string userId { get; set; } = "423abce0-683d-4c88-3a0f-08dd5a798b94";
     }
 
     public class TransactionResponse
@@ -26,9 +26,11 @@
         public List<TransactionResponse> transactionResponses { get; set; } = new();
         public string balance { get; set; }
     }
-    public class getTransactionbyUser {
+    public class getTransactionbyUser
+    {
         public string userId { get; set; }
         public string userName { get; set; }
+        public List<TransactionResponse> transactionResponses { get; set; } = new();
         public double Deposit { get; set; }
         public double Withdrawal { get; set; }
         public double Balance { get; set; }

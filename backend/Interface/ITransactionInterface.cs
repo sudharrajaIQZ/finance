@@ -8,7 +8,7 @@ namespace backend.Interface
         Task<IEnumerable<TransactionResponse>>getTransactionAsync();
         Task<BaseResponse<object>>createTransactionAsync(CreateTransaction createTransaction);
         Task<BaseResponse<List<TransactionListById>>> getTransactionByIdAsync();
-        Task<BaseResponse<object>> getTransactionAllbyUser(getTransactionbyUser getTransactionbyUser);
+        // Task<BaseResponse<object>> getTransactionAllbyUser(getTransactionbyUser getTransactionbyUser);
 
     }
 }
